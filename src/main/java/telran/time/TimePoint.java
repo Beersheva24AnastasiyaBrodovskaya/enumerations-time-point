@@ -3,14 +3,14 @@ package telran.time;
 public class TimePoint implements Comparable<TimePoint>{
     private float amount;
     private TimeUnit timeUnit;
+
     public TimePoint(float amount, TimeUnit timeUnit) {
         this.amount = amount;
         this.timeUnit = timeUnit;
     }
     @Override
     public int compareTo(TimePoint arg0) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'compareTo'");
+        return (int) TimeUnit.SECOND.between(arg0, this);
     }
     public float getAmount(){
         return amount;
@@ -20,14 +20,12 @@ public class TimePoint implements Comparable<TimePoint>{
     }
     @Override
     public boolean equals(Object obj) {
-        //TODO
-        return false;
+        return ((TimePoint) obj).compareTo(this) == 0;
     }
     public TimePoint convert(TimeUnit timeUnit) {
-        //TODO
-        //returns new TimePoint object equaled to the "this" object but
-        //with a gibven timeUnit
-        return null;
+        float timePointSeconds = amount * this.timeUnit.getValueOfSeconds();
+        float newAmount = timePointSeconds / timeUnit.getValueOfSeconds();
+        return new TimePoint(newAmount, timeUnit);
     }
     public TimePoint with(TimePointAdjuster adjuster) {
         return adjuster.adjust(this);
